@@ -91,19 +91,4 @@ Sincere gratitude to the contributors of mdistiller, CTKD, Multi-Level-Logit-Dis
 
 If you find that this project helps your research, please consider citing some of the following paper:
 
-```BibTeX
-@inproceedings{sun2024logit,
-  title={Logit standardization in knowledge distillation},
-  author={Sun, Shangquan and Ren, Wenqi and Li, Jingzhi and Wang, Rui and Cao, Xiaochun},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-  pages={15731--15740},
-  year={2024}
-}
 
-@article{sun2024logit,
-  title={Logit Standardization in Knowledge Distillation},
-  author={Sun, Shangquan and Ren, Wenqi and Li, Jingzhi and Wang, Rui and Cao, Xiaochun},
-  journal={arXiv preprint arXiv:2403.01427},
-  year={2024}
-}
-```
