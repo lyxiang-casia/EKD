@@ -1,0 +1,40 @@
+EXPERIMENT:
+  NAME: "EKD,vgg13,vgg8"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "CIFAR10"
+DATASET:
+    TYPE: "cifar10"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "vgg8"
+  TEACHER: "vgg13"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -0.60
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -0.60
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 4.5
+    KD_WEIGHT: 4.5
+    EXPECTATION: False
+    TEMPERATURE: 1
+DKD:
+  BETA: 6.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

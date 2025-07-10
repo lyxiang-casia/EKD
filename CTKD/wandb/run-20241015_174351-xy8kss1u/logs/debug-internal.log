@@ -1,0 +1,9 @@
+2024-10-15 17:43:51,726 INFO    StreamThr :951936 [internal.py:wandb_internal():85] W&B internal server running at pid: 951936, started at: 2024-10-15 17:43:51.724115
+2024-10-15 17:43:51,732 DEBUG   HandlerThread:951936 [handler.py:handle_request():158] handle_request: status
+2024-10-15 17:43:51,737 INFO    WriterThread:951936 [datastore.py:open_for_write():87] open: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174351-xy8kss1u/run-xy8kss1u.wandb
+2024-10-15 17:43:51,739 DEBUG   SenderThread:951936 [sender.py:send():379] send: header
+2024-10-15 17:43:51,740 DEBUG   SenderThread:951936 [sender.py:send():379] send: run
+2024-10-15 17:43:53,329 INFO    SenderThread:951936 [dir_watcher.py:__init__():211] watching files in: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174351-xy8kss1u/files
+2024-10-15 17:43:53,329 INFO    SenderThread:951936 [sender.py:_start_run_threads():1188] run started: xy8kss1u with start time 1728985431.723634
+2024-10-15 17:43:53,378 DEBUG   HandlerThread:951936 [handler.py:handle_request():158] handle_request: check_version
+2024-10-15 17:43:53,379 DEBUG   SenderThread:951936 [sender.py:send_request():406] send_request: check_version

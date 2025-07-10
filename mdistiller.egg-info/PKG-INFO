@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: mdistiller
+Version: 0.1
+Summary: A Deep Learning Toolkit for Knowledge Distillation.
+Author: zhaoborui
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: summary
+
+MDistiller: a deep learning toolkit for knowledge distillation.

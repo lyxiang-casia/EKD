@@ -1,0 +1,36 @@
+EXPERIMENT:
+  NAME: "KD-eModel(pro P)+EKD"
+  TAG: "student_softplus_7.0,teacher_softplus_7.0"
+  PROJECT: "KD_weight_search"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "resnet8x4"
+  TEACHER: "resnet32x4_activ"
+EKD:
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  LOSS:
+    KL: False
+    CE_WEIGHT: 0.1
+    EKD_WEIGHT: 4.5
+KD:
+  LOSS:
+    KD_WEIGHT: 4.5
+  TEMPERATURE: 1
+LOG:
+  WANDB: False
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

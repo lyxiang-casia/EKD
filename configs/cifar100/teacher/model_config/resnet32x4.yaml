@@ -1,0 +1,24 @@
+EXPERIMENT:
+  NAME: "log1p"
+  TAG: "exp"
+  PROJECT: "Teacher_resnet32x4(226)"
+DISTILLER:
+  TYPE: "Teacher"
+  STUDENT: "resnet32x4"
+TEACHER:
+  CLF_TYPE: "log1p"
+  LAMB: 0.0
+  KL: False
+DATASET:
+  TYPE: 'cifar100'
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [80, 150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

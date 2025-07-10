@@ -1,0 +1,45 @@
+EXPERIMENT:
+  NAME: "KD:EKD:CE=2:0.1:1,warmup=1"
+  TAG: "ekd,res50,mobilenetv1"
+  PROJECT: "ImageNet_R34_MV2"
+DATASET:
+  TYPE: "imagenet"
+  NUM_WORKERS: 64
+  TEST:
+    BATCH_SIZE: 128
+DISTILLER:
+  TYPE: "KD4eModel"
+  TEACHER: "ResNet50"
+  STUDENT: "MobileNetV2"
+EKD:
+  WARMUP: 1
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    LAMB: -1.73
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    LAMB: -1.73
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 0.1
+    KD_WEIGHT: 2.0
+    EXPECTATION: False
+    TEMPERATURE: 1
+SOLVER:
+  BATCH_SIZE: 512
+  EPOCHS: 100
+  LR: 0.2
+  LR_DECAY_STAGES: [30, 60, 90]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0001
+  MOMENTUM: 0.9
+  TYPE: "SGD"
+LOG:
+  TENSORBOARD_FREQ: 50
+  SAVE_CHECKPOINT_FREQ: 10
+DKD:
+  CE_WEIGHT: 1.0
+  BETA: 2.0
+  T: 1.0
+  WARMUP: 1

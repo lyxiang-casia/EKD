@@ -1,0 +1,11 @@
+method: grid
+metric:
+  name: best_acc  # 选择要优化的衡量标准
+  goal: maximize  # 目标是最小化该指标
+parameters:
+  CLF_TYPE:
+    values: ["relu","sigmoid","tanh","exp","softmax","softplus"]
+  ACTIVATION:
+    values: ["relu", "sigmoid", "tanh", "leakyrelu", "prelu", "elu"]
+num_agents: 6
+multiprocess: False

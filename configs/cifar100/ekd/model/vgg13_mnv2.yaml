@@ -1,0 +1,38 @@
+EXPERIMENT:
+  NAME: "setting63_KD:EKD=4.5:3.0,WAMRUP=150"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "vgg13_mnv2_random"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "MobileNetV2"
+  TEACHER: "vgg13"
+EKD:
+  WARMUP: 150
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.23
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.23
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 3.0
+    KD_WEIGHT: 4.5
+    EXPECTATION: False
+    TEMPERATURE: 1
+DKD:
+  BETA: 6.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.01
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

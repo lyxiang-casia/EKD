@@ -1,0 +1,33 @@
+EXPERIMENT:
+  NAME: "MLKD-eModel(pro P temperature:2 weight:9)_EKD(weight:4.5)"
+  TAG: "student:softplus+3,teacher:softplus+3"
+  PROJECT: "MLKD"
+DISTILLER:
+  TYPE: "MLKD4eModel"
+  STUDENT: "resnet8x4"
+  TEACHER: "resnet32x4_activ"
+EKD:
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 3.0
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 3.0
+  LOSS:
+    KL: False
+    CE_WEIGHT: 0.1
+    EKD_WEIGHT: 4.5
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 480
+  LR: 0.025
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"
+  TRAINER: "ours"

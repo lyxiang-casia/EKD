@@ -1,0 +1,131 @@
+2024-10-15 17:42:26,448 INFO    StreamThr :944263 [internal.py:wandb_internal():85] W&B internal server running at pid: 944263, started at: 2024-10-15 17:42:26.445248
+2024-10-15 17:42:26,455 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status
+2024-10-15 17:42:26,462 INFO    WriterThread:944263 [datastore.py:open_for_write():87] open: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/run-h87osli8.wandb
+2024-10-15 17:42:26,465 DEBUG   SenderThread:944263 [sender.py:send():379] send: header
+2024-10-15 17:42:26,465 DEBUG   SenderThread:944263 [sender.py:send():379] send: run
+2024-10-15 17:42:27,554 INFO    SenderThread:944263 [dir_watcher.py:__init__():211] watching files in: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files
+2024-10-15 17:42:27,554 INFO    SenderThread:944263 [sender.py:_start_run_threads():1188] run started: h87osli8 with start time 1728985346.446133
+2024-10-15 17:42:27,619 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: check_version
+2024-10-15 17:42:27,621 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: check_version
+2024-10-15 17:42:32,621 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: keepalive
+2024-10-15 17:42:32,625 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:32,689 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: run_start
+2024-10-15 17:42:32,729 DEBUG   HandlerThread:944263 [system_info.py:__init__():26] System info init
+2024-10-15 17:42:32,729 DEBUG   HandlerThread:944263 [system_info.py:__init__():41] System info init done
+2024-10-15 17:42:32,730 INFO    HandlerThread:944263 [system_monitor.py:start():194] Starting system monitor
+2024-10-15 17:42:32,731 INFO    HandlerThread:944263 [system_monitor.py:probe():214] Collecting system info
+2024-10-15 17:42:32,732 INFO    SystemMonitor:944263 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-10-15 17:42:32,734 INFO    SystemMonitor:944263 [interfaces.py:start():188] Started cpu monitoring
+2024-10-15 17:42:32,737 INFO    SystemMonitor:944263 [interfaces.py:start():188] Started disk monitoring
+2024-10-15 17:42:32,743 INFO    SystemMonitor:944263 [interfaces.py:start():188] Started gpu monitoring
+2024-10-15 17:42:32,748 INFO    SystemMonitor:944263 [interfaces.py:start():188] Started memory monitoring
+2024-10-15 17:42:32,750 INFO    SystemMonitor:944263 [interfaces.py:start():188] Started network monitoring
+2024-10-15 17:42:32,864 DEBUG   HandlerThread:944263 [system_info.py:probe():152] Probing system
+2024-10-15 17:42:32,874 DEBUG   HandlerThread:944263 [gitlib.py:_init_repo():56] git repository is invalid
+2024-10-15 17:42:32,874 DEBUG   HandlerThread:944263 [system_info.py:probe():200] Probing system done
+2024-10-15 17:42:32,875 DEBUG   HandlerThread:944263 [system_monitor.py:probe():223] {'os': 'Linux-5.15.0-113-generic-x86_64-with-glibc2.10', 'python': '3.8.5', 'heartbeatAt': '2024-10-15T09:42:32.864574', 'startedAt': '2024-10-15T09:42:26.397079', 'docker': None, 'cuda': None, 'args': ('--model_t', 'resnet32x4', '--distill', 'ekd', '--model_s', 'resnet8x4', '-r', '1.0', '-a', '4.5', '-b', '4.5', '--kd_T', '4', '--batch_size', '64', '--learning_rate', '0.05', '--have_mlp', '1', '--mlp_name', 'global', '--decay_min', '-1', '--decay_loops', '10', '--save_model', '--experiments_dir', 'tea-res32x4-stu-res8x4/ekd/global_T', '--experiments_name', 'setting63', '--deterministic', '--lamb', '-1.22', '--wandb', '--project', 'Resnet32x4_Resnet8x4(CTKD)'), 'state': 'running', 'program': '/data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/train_student.py', 'codePathLocal': 'train_student.py', 'codePath': 'train_student.py', 'host': 'MMC-8xRTX3090-28-226', 'username': 'mmc_lyxiang', 'executable': '/data_SSD2/mmc_lyxiang/anaconda3/envs/KD/bin/python', 'cpu_count': 32, 'cpu_count_logical': 64, 'cpu_freq': {'current': 2042.214796875, 'min': 1200.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 2122.979, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3600.0, 'min': 1200.0, 'max': 3900.0}, {'current': 2144.784, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3599.999, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 2775.413, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3600.0, 'min': 1200.0, 'max': 3900.0}, {'current': 2000.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3599.999, 'min': 1200.0, 'max': 3900.0}, {'current': 3299.991, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3600.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3551.175, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3446.749, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3600.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3100.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3600.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 2185.732, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 3514.852, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 2802.876, 'min': 1200.0, 'max': 3900.0}, {'current': 3506.42, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1300.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1200.0, 'min': 1200.0, 'max': 3900.0}], 'disk': {'/': {'total': 138.67279815673828, 'used': 24.63393783569336}}, 'gpu': 'NVIDIA GeForce RTX 3090', 'gpu_count': 8, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}], 'memory': {'total': 251.54158782958984}}
+2024-10-15 17:42:32,875 INFO    HandlerThread:944263 [system_monitor.py:probe():224] Finished collecting system info
+2024-10-15 17:42:32,875 INFO    HandlerThread:944263 [system_monitor.py:probe():227] Publishing system info
+2024-10-15 17:42:32,876 DEBUG   HandlerThread:944263 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-10-15 17:42:33,562 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_created():271] file/dir created: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/conda-environment.yaml
+2024-10-15 17:42:37,560 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/conda-environment.yaml
+2024-10-15 17:42:37,563 DEBUG   HandlerThread:944263 [system_info.py:_save_conda():224] Saving conda packages done
+2024-10-15 17:42:37,581 INFO    HandlerThread:944263 [system_monitor.py:probe():229] Finished publishing system info
+2024-10-15 17:42:37,590 DEBUG   SenderThread:944263 [sender.py:send():379] send: files
+2024-10-15 17:42:37,591 INFO    SenderThread:944263 [sender.py:_save_file():1454] saving file wandb-metadata.json with policy now
+2024-10-15 17:42:38,141 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: python_packages
+2024-10-15 17:42:38,142 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: python_packages
+2024-10-15 17:42:38,143 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:38,145 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: stop_status
+2024-10-15 17:42:38,146 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: stop_status
+2024-10-15 17:42:38,146 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:38,457 DEBUG   SenderThread:944263 [sender.py:send():379] send: telemetry
+2024-10-15 17:42:38,561 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_created():271] file/dir created: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/requirements.txt
+2024-10-15 17:42:38,563 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_created():271] file/dir created: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/output.log
+2024-10-15 17:42:38,563 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_created():271] file/dir created: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/wandb-metadata.json
+2024-10-15 17:42:39,145 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:40,145 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:40,562 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/output.log
+2024-10-15 17:42:41,146 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:42,145 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:42,564 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/output.log
+2024-10-15 17:42:43,145 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:43,146 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:44,146 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:45,146 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:46,147 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:47,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:48,147 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:48,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:49,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:50,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:51,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:52,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:53,143 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: stop_status
+2024-10-15 17:42:53,144 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: stop_status
+2024-10-15 17:42:53,185 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:53,419 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:54,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:55,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:56,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:57,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:58,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:59,152 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:42:59,163 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:42:59,577 INFO    Thread-17 :944263 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174226-h87osli8/files/config.yaml
+2024-10-15 17:43:00,150 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:01,150 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:02,150 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:03,150 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:04,151 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:05,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:05,151 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:06,151 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:07,151 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:08,143 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: stop_status
+2024-10-15 17:43:08,145 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: stop_status
+2024-10-15 17:43:08,185 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:09,152 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:10,152 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:10,416 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:11,152 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:12,152 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:13,153 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:14,153 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:15,153 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:16,148 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:16,153 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:17,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:18,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:19,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:20,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:21,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:22,149 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:22,154 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:23,144 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: stop_status
+2024-10-15 17:43:23,145 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: stop_status
+2024-10-15 17:43:23,185 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:24,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:25,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:26,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:27,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:27,448 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:28,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:29,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:30,156 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:31,155 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:32,156 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:32,751 DEBUG   SystemMonitor:944263 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-10-15 17:43:32,765 DEBUG   SenderThread:944263 [sender.py:send():379] send: stats
+2024-10-15 17:43:32,774 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:33,156 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:34,157 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:35,157 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:36,157 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:37,158 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:38,144 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: stop_status
+2024-10-15 17:43:38,146 DEBUG   SenderThread:944263 [sender.py:send_request():406] send_request: stop_status
+2024-10-15 17:43:38,185 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:38,443 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: status_report
+2024-10-15 17:43:39,158 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages
+2024-10-15 17:43:40,161 DEBUG   HandlerThread:944263 [handler.py:handle_request():158] handle_request: internal_messages

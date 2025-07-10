@@ -1,0 +1,38 @@
+EXPERIMENT:
+  NAME: "trained_lamb"
+  TAG: "student_softplus+7.0,teacher_softplus+7.0,seed1"
+  PROJECT: "Teacher_ResNet56(226)"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "resnet20"
+  TEACHER: "resnet56"
+  LAMB2: 0.2
+EKD:
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  LOSS:
+    KL: False
+    CE_WEIGHT: 0.1
+    EKD_WEIGHT: 5.0
+KD:
+  LOSS:
+    KD_WEIGHT: 5.0
+    EXPECTATION: True
+  TEMPERATURE: 1
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

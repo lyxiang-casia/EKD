@@ -1,0 +1,106 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OOD",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/OOD.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--m", "resnet8x4",
+                "-c", "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Resnet32x4_Resnet8x4(226)/setting_63(random_train)_run2/student_best",
+                "-lamb", "-1.22"
+                // "--sweep", "/data/mmc_lyxiang/KD/logit-standardization-KD-master/configs/cifar100/teacher/hyperparameters_search/sweep_all.yaml"
+                // 
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "5",
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Logit-standardization",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/random_train.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--cfg", "configs/cifar100/ekd/model/resnet32x4_shn_v2.yaml",
+                "LOG.WANDB", "False",
+
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Logit-standardization-KD",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/train.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--cfg", "configs/cifar100/ekd/model/resnet32x4_resnet8x4.yaml",
+                "LOG.WANDB", "False",
+                // "DISTILLER.TYPE", "NONE",
+                // "DISTILLER.STUDENT", "wrn_40_2",
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+            }
+        },
+        {
+            "name": "Logit-standardization-eval",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/eval.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-m", "resnet8x4",
+                "-c", "/data/mmc_lyxiang/KD/EKD/download_ckpts/cifar_teachers/resnet8x4_vanilla/ckpt_epoch_240.pth",
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+            }
+        },
+        {
+            "name": "R-EDL",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/KD/ICLR2024-REDL-main/code_classical/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/KD/ICLR2024-REDL-main/code_classical",
+            "args": [
+                "--configid", "2_cifar10/cifar10-redl-train",
+                "--suffix", "test"
+            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "1"
+            }
+        },
+        {
+            "name": "Python 调试程序: 当前文件",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/courses/deep_learning/hw-3/model.py",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}",
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "1"
+            }
+        }
+    ]
+}
+
+
+
+ 

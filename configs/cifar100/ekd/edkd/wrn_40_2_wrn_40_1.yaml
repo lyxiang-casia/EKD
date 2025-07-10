@@ -1,0 +1,38 @@
+EXPERIMENT:
+  NAME: "setting_61,DKD:EKD=0.5:1.0"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "wrn_40_2_wrn_40_1(DKD)"
+DISTILLER:
+  TYPE: "DKD4eModel"
+  STUDENT: "wrn_40_1"
+  TEACHER: "wrn_40_2"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.16
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.16
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 1.0
+    KD_WEIGHT: 0.5
+    EXPECTATION: False
+    TEMPERATURE: 1
+DKD:
+  BETA: 6.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

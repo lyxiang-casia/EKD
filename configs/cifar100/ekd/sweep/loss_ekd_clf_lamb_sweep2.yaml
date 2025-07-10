@@ -1,0 +1,13 @@
+method: grid
+metric:
+  name: best_acc  # 选择要优化的衡量标准
+  goal: maximize  # 目标是最小化该指标
+parameters:
+  teacher_clf: 
+    values: ["sigmoid", "relu", "softplus"]
+  student_clf:
+    values: ["relu"]
+  student_lamb:
+    values: [0.2, 1.0, 2.0]
+  teacher_lamb:
+    values: [0.2, 1.0,  2.0]

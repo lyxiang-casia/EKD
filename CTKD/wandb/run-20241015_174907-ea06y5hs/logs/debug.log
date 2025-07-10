@@ -1,0 +1,27 @@
+2024-10-15 17:49:07,335 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Current SDK version is 0.17.5
+2024-10-15 17:49:07,335 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Configure stats pid to 980280
+2024-10-15 17:49:07,335 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Loading settings from /home/mmc_lyxiang/.config/wandb/settings
+2024-10-15 17:49:07,335 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Loading settings from /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/settings
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'train_student.py', 'program_abspath': '/data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/train_student.py', 'program': '/data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/train_student.py'}
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_init.py:_log_setup():529] Logging user logs to /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174907-ea06y5hs/logs/debug.log
+2024-10-15 17:49:07,336 INFO    MainThread:980280 [wandb_init.py:_log_setup():530] Logging internal logs to /data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/wandb/run-20241015_174907-ea06y5hs/logs/debug-internal.log
+2024-10-15 17:49:07,337 INFO    MainThread:980280 [wandb_init.py:init():569] calling init triggers
+2024-10-15 17:49:07,337 INFO    MainThread:980280 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {}
+2024-10-15 17:49:07,337 INFO    MainThread:980280 [wandb_init.py:init():619] starting backend
+2024-10-15 17:49:07,337 INFO    MainThread:980280 [wandb_init.py:init():623] setting up manager
+2024-10-15 17:49:07,341 INFO    MainThread:980280 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-10-15 17:49:07,344 INFO    MainThread:980280 [wandb_init.py:init():631] backend started and connected
+2024-10-15 17:49:07,353 INFO    MainThread:980280 [wandb_init.py:init():720] updated telemetry
+2024-10-15 17:49:07,354 INFO    MainThread:980280 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-10-15 17:49:08,107 INFO    MainThread:980280 [wandb_run.py:_on_init():2435] communicating current version
+2024-10-15 17:49:13,113 INFO    MainThread:980280 [wandb_run.py:_on_init():2444] got version response 
+2024-10-15 17:49:13,114 INFO    MainThread:980280 [wandb_init.py:init():804] starting run threads in backend
+2024-10-15 17:49:18,523 INFO    MainThread:980280 [wandb_run.py:_console_start():2413] atexit reg
+2024-10-15 17:49:18,523 INFO    MainThread:980280 [wandb_run.py:_redirect():2255] redirect: wrap_raw
+2024-10-15 17:49:18,524 INFO    MainThread:980280 [wandb_run.py:_redirect():2320] Wrapping output streams.
+2024-10-15 17:49:18,524 INFO    MainThread:980280 [wandb_run.py:_redirect():2345] Redirects installed.
+2024-10-15 17:49:18,528 INFO    MainThread:980280 [wandb_init.py:init():847] run started, returning control to user process

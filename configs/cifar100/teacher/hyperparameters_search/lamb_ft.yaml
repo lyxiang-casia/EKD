@@ -1,0 +1,10 @@
+method: bayes
+metric:
+  name: best_acc  # 选择要优化的衡量标准
+  goal: maximize  # 目标是最小化该指标
+parameters:
+  CLF_TYPE:
+    values: ["relu", "sigmoid", "tanh","exp", "softmax", "softplus"]
+  LAMB2:
+    "max": 2.0
+    "min": 0.05

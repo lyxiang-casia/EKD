@@ -1,0 +1,38 @@
+EXPERIMENT:
+  NAME: "KD:EKD"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "resnet56_resnet20"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "resnet20"
+  TEACHER: "resnet56"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -0.93
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -0.93
+  LOSS:
+    KL: False
+    CE_WEIGHT: 5.0
+    EKD_WEIGHT: 2.0
+    KD_WEIGHT: 3.0
+    EXPECTATION: False
+    TEMPERATURE: 1
+DKD:
+  BETA: 2.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

@@ -1,0 +1,30 @@
+train_student.py:181: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_teacher.load_state_dict(torch.load(pretrain_model_path, map_location=map_location)['model'])
+Use GPU: 0 for training
+==> loading teacher model
+==> done
+Files already downloaded and verified
+Files already downloaded and verified
+==> training...
+Epoch: [1][0/782]	GPU 0	Loss 17.0221	Acc@1 3.125	Acc@5 9.375
+Epoch: [1][100/782]	GPU 0	Loss 23.1354	Acc@1 4.595	Acc@5 19.539
+Epoch: [1][200/782]	GPU 0	Loss 44.0911	Acc@1 5.488	Acc@5 21.634
+Epoch: [1][300/782]	GPU 0	Loss 50.6669	Acc@1 6.401	Acc@5 24.118
+Epoch: [1][400/782]	GPU 0	Loss 53.6493	Acc@1 7.314	Acc@5 26.056
+Epoch: [1][500/782]	GPU 0	Loss 55.2275	Acc@1 8.074	Acc@5 27.648
+Epoch: [1][600/782]	GPU 0	Loss 55.9604	Acc@1 8.811	Acc@5 29.329
+Epoch: [1][700/782]	GPU 0	Loss 56.3701	Acc@1 9.776	Acc@5 30.947
+Traceback (most recent call last):
+  File "train_student.py", line 494, in <module>
+    main()
+  File "train_student.py", line 256, in main
+    main_worker(None if ngpus_per_node > 1 else opt.gpu_id, ngpus_per_node, opt)
+  File "train_student.py", line 444, in main_worker
+    return_pack = validate(val_loader, model_s, criterion_cls, opt)
+  File "/data/mmc_lyxiang/KD/logit-standardization-KD-master/CTKD/helper/loops.py", line 217, in validate
+    loss = criterion(output, target)
+  File "/data_SSD2/mmc_lyxiang/anaconda3/envs/KD/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data_SSD2/mmc_lyxiang/anaconda3/envs/KD/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+TypeError: forward() missing 1 required positional argument: 'lamb'

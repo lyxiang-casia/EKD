@@ -1,0 +1,57 @@
+EXPERIMENT:
+  NAME: "setting_63(random_train)"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "MSE"
+DISTILLER:
+  TYPE: "KD4eModel"
+  STUDENT: "ShuffleV2"
+  TEACHER: "resnet32x4"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    LAMB: -1.22
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    LAMB: -1.22
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 4.5
+    KD_WEIGHT: 4.5
+    EXPECTATION: False
+    TEMPERATURE: 1
+WKD:
+  INPUT_SIZE: (32, 32)
+  LOSS:
+    CE_WEIGHT: 1.0
+    WKD_LOGIT_WEIGHT: 0.0
+    WKD_FEAT_WEIGHT: 0.08
+    COSINE_DECAY_EPOCH: 150
+  EPS: 0.00001
+  HINT_LAYER: -1
+  MEAN_COV_RATIO: 4.0
+  PROJECTOR: "conv1x1"
+  SPATIAL_GRID: 1
+CAT_KD:
+  LOSS:
+    # β
+    CAT_loss_weight: 600.
+    # the resolution of the transferred CAMs after the average pooling function
+    CAM_RESOLUTION: 4
+    CE_WEIGHT: 1.
+  #True: CAT
+  #False: CAT-KD
+  onlyCAT: False
+  IF_NORMALIZE: True
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.01
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

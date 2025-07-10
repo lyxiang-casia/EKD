@@ -1,0 +1,181 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+from pycls.core.config import cfg
+import pycls.core.logging as logging
+
+
+logger = logging.get_logger(__name__)
+
+
+
+def evidential_kd_loss(alpha_student, alpha_teacher):
+    S_student = torch.sum(alpha_student, dim=1, keepdim=True)
+    S_teacher = torch.sum(alpha_teacher, dim=1, keepdim=True)
+    log_pred_student = torch.log(alpha_student / S_student)
+    pred_teacher = alpha_teacher / S_teacher
+    loss_kd = F.kl_div(log_pred_student, pred_teacher, reduction="none").sum(1).mean()
+    return loss_kd
+
+def compute_ekd_loss(s_alpha, t_alpha):
+    s_S = torch.sum(s_alpha, dim=1)
+    t_S = torch.sum(t_alpha, dim=1)
+    t_S_keep = torch.sum(t_alpha, dim=1, keepdim=True)
+
+    loss_term1 = torch.lgamma(t_S) - torch.lgamma(s_S)
+    loss_term2 = - torch.sum(torch.lgamma(t_alpha) - torch.lgamma(s_alpha), dim=1)
+    loss_term3 = torch.sum((t_alpha - s_alpha) * (torch.digamma(t_alpha) - torch.digamma(t_S_keep)), dim=1)
+    loss = (loss_term1 + loss_term2 + loss_term3).mean()
+
+    return loss
+
+
+def attention_transform(feat):
+    return F.normalize(feat.pow(2).mean(1).view(feat.size(0), -1))
+
+
+def similarity_transform(feat):
+    feat = feat.view(feat.size(0), -1)
+    gram = feat @ feat.t()
+    return F.normalize(gram)
+
+
+_TRANS_FUNC = {"attention": attention_transform, "similarity": similarity_transform, "linear": lambda x : x}
+
+
+def inter_distill_loss(feat_t, feat_s, transform_type):
+    assert transform_type in _TRANS_FUNC, f"Transformation function {transform_type} is not supported."
+    trans_func = _TRANS_FUNC[transform_type]
+    feat_t = trans_func(feat_t)
+    feat_s = trans_func(feat_s)
+    return (feat_t - feat_s).pow(2).mean()
+
+def normalize(logit):
+    mean = logit.mean(dim=-1, keepdims=True)
+    stdv = logit.std(dim=-1, keepdims=True)
+    return (logit - mean) / (1e-7+stdv)
+
+def logit_distill_loss(logits_t, logits_s, loss_type, temperature, logit_standard, extra_weight_in=10):
+    if loss_type == "soft":
+        logits_s_ = normalize(logits_s) if logit_standard else logits_s
+        logits_t_ = normalize(logits_t) if logit_standard else logits_t
+        extra_weight = extra_weight_in if logit_standard else 1
+        distillation_loss = extra_weight * F.kl_div(
+            F.log_softmax(logits_s_ / temperature, dim=1),
+            F.softmax(logits_t_ / temperature, dim=1),
+            reduction='none',
+            # log_target=True
+        ).sum(1).mean() * (temperature * temperature)
+    elif loss_type == "hard":
+        distillation_loss = F.cross_entropy(logits_s, logits_t.argmax(dim=1))
+    else:
+        raise NotImplementedError
+
+    return distillation_loss
+
+def evidential_distill_loss(logits_t, logits_s, temperature, lamb):
+    evidence_student = torch.exp(logits_s / temperature)
+    evidence_teacher = torch.exp(logits_t / temperature)
+    alpha_student = evidence_student + torch.exp(lamb)
+    alpha_teacher = evidence_teacher + torch.exp(lamb)
+    loss_kd = temperature ** 2 * evidential_kd_loss(alpha_student, alpha_teacher)
+    alpha_student = torch.log1p(F.softplus(logits_s / temperature)) + torch.exp(lamb)
+    alpha_teacher = torch.log1p(F.softplus(logits_t / temperature)) + torch.exp(lamb)
+    loss_ekd = temperature ** 2 * compute_ekd_loss(alpha_student, alpha_teacher)
+    return loss_kd, loss_ekd
+
+
+class DistillationWrapper(nn.Module):
+
+    def __init__(self, student_model, teacher_mode):
+        super(DistillationWrapper, self).__init__()
+        self.enable_inter = cfg.DISTILLATION.ENABLE_INTER
+        self.inter_transform_type = cfg.DISTILLATION.INTER_TRANSFORM
+        self.student_idx = cfg.DISTILLATION.INTER_STUDENT_INDEX
+        self.teacher_idx = cfg.DISTILLATION.INTER_TEACHER_INDEX
+        self.enable_logit = cfg.DISTILLATION.ENABLE_LOGIT
+        self.enable_ekd = cfg.DISTILLATION.ENABLE_EKD
+        self.warmup = cfg.DISTILLATION.WARMUP
+        self.logit_loss_type = cfg.DISTILLATION.LOGIT_LOSS
+        self.kd_weight = cfg.DISTILLATION.KD_WEIGHT
+        self.ekd_weight = cfg.DISTILLATION.EKD_WEIGHT
+        self.lamb = torch.tensor(cfg.MODEL.LAMB)
+        self.teacher_img_size = cfg.DISTILLATION.TEACHER_IMG_SIZE
+        self.offline = cfg.DISTILLATION.OFFLINE
+        self.temperature = cfg.DISTILLATION.LOGIT_TEMP
+        self.logit_standard = cfg.DISTILLATION.LOGIT_STANDARD
+        self.extra_weight_in = cfg.DISTILLATION.EXTRA_WEIGHT_IN
+        assert not self.offline or not self.enable_logit, 'Logit distillation is not supported when offline is enabled.'
+
+        self.student_model = student_model
+
+        self.teacher_model = teacher_mode
+        for p in self.teacher_model.parameters():
+            p.requires_grad = False
+        logger.info("Build teacher model {}".format(type(self.teacher_model)))
+
+        teacher_weights = cfg.DISTILLATION.TEACHER_WEIGHTS
+        if teacher_weights:
+            checkpoint = torch.load(teacher_weights)["model_state"]
+            logger.info("Loaded initial weights of teacher model from: {}".format(teacher_weights))
+            self.teacher_model.load_state_dict(checkpoint)
+
+        if self.inter_transform_type == 'linear':
+            self.feature_transforms = nn.ModuleList()
+            for i, j in zip(self.student_idx, self.teacher_idx):
+                self.feature_transforms.append(nn.Conv2d(self.student_model.feature_dims[i], self.teacher_model.feature_dims[j], 1))
+
+    def load_state_dict(self, state_dict, strict=True):
+        return self.student_model.load_state_dict(state_dict, strict)
+    
+    def state_dict(self, destination=None, prefix='', keep_vars=False):
+        return self.student_model.state_dict(destination, prefix, keep_vars)
+
+    def forward(self, x):
+        return self.student_model(x)
+
+    def complexity(self):
+        complexity = dict()
+        student_complexity = self.student_model.complexity()
+        teacher_complexity = self.teacher_model.complexity()
+        complexity["student"] = student_complexity
+        complexity["teacher"] = teacher_complexity
+        return complexity
+
+    def guidance_loss(self, x, offline_feats, epoch=1):
+        logits_s = self.student_model.distill_logits
+        feats_s = self.student_model.features
+
+        if self.offline:
+            logits_t = None
+            feats_t = offline_feats
+        else:
+            x = F.interpolate(x, size=(self.teacher_img_size, self.teacher_img_size), mode='bilinear', align_corners=False)
+            with torch.no_grad():
+                logits_t = self.teacher_model(x)
+                feats_t = self.teacher_model.features
+
+        loss_inter = x.new_tensor(0.0)
+        if self.enable_inter:
+            for i, (idx_t, idx_s) in enumerate(zip(self.teacher_idx, self.student_idx)):
+                feat_t = feats_t[idx_t]
+                feat_s = feats_s[idx_s]
+
+                if self.inter_transform_type == 'linear':
+                    feat_s = self.feature_transforms[i](feat_s)
+
+                dsize = (max(feat_t.size(-2), feat_s.size(-2)), max(feat_t.size(-1), feat_s.size(-1)))
+                feat_t = F.interpolate(feat_t, dsize, mode='bilinear', align_corners=False)
+                feat_s = F.interpolate(feat_s, dsize, mode='bilinear', align_corners=False)
+                loss_inter = loss_inter + inter_distill_loss(feat_t, feat_s, self.inter_transform_type)
+
+        if self.enable_ekd:
+            loss_kd, loss_ekd = evidential_distill_loss(logits_t, logits_s, self.temperature, self.lamb) if self.enable_logit else x.new_tensor(0.0)
+            loss_logit = self.kd_weight * loss_kd +  self.ekd_weight * loss_ekd
+            # loss_logit = self.kd_weight * loss_kd
+        else:
+            loss_logit = logit_distill_loss(logits_t, logits_s, self.logit_loss_type, self.temperature, self.logit_standard, extra_weight_in=self.extra_weight_in) if self.enable_logit else x.new_tensor(0.0)
+            loss_ekd = x.new_tensor(0.0)
+
+        return loss_inter, loss_logit,  self.ekd_weight * loss_ekd

@@ -1,0 +1,36 @@
+EXPERIMENT:
+  NAME: "DKD-eModel(ce:1.0 pro P weight:4.5:36.0)_EKD(weight:40.5)"
+  TAG: "student:softplus+7,teacher:softplus+7"
+  PROJECT: "DKD"
+DISTILLER:
+  TYPE: "DKD4eModel"
+  STUDENT: "resnet8x4"
+  TEACHER: "resnet32x4_activ"
+EKD:
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 7.0
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 40.5
+DKD:
+  T: 1.0
+  ALPHA: 4.5
+  BETA: 36.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

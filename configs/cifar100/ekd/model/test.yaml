@@ -1,0 +1,36 @@
+EXPERIMENT:
+  NAME: "test"
+  TAG: "student_relu_2,teacher_softplus_0.2"
+  PROJECT: "test"
+DISTILLER:
+  TYPE: "EKD"
+  STUDENT: "resnet8x4"
+  TEACHER: "resnet32x4_activ"
+EKD:
+  STUDENT: 
+    CLF_TYPE: "relu"
+    ACTIVATION: "relu"
+    LAMB2: 0.1
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB2: 200000.0
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 90000000.0
+SWEEP: 
+  START: False
+  num_agents: 7
+  multiprocess: False
+LOG:
+  WANDB: False
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

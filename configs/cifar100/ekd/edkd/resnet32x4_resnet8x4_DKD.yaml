@@ -1,0 +1,37 @@
+EXPERIMENT:
+  NAME: "setting_6(DKD),DKD:EKD=0.5:4.5,DKDWAMRUP=0"
+  TAG: "student_softplus,teacher_softplus"
+  PROJECT: "Resnet32x4_Resnet8x4(DKD)"
+DISTILLER:
+  TYPE: "DKD4eModel"
+  STUDENT: "resnet8x4"
+  TEACHER: "resnet32x4"
+EKD:
+  STUDENT: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.22
+  TEACHER: 
+    CLF_TYPE: "softplus"
+    ACTIVATION: "relu"
+    LAMB: -1.22
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    EKD_WEIGHT: 4.5
+    KD_WEIGHT: 0.5
+    EXPECTATION: False
+    TEMPERATURE: 1
+    ALPHA: 1.0
+    BETA: 8.0
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

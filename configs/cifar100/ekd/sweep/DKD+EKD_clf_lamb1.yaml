@@ -1,0 +1,18 @@
+method: random
+metric:
+  name: best_acc  # 选择要优化的衡量标准
+  goal: maximize  # 目标是最小化该指标
+parameters:
+  ce_weight: 
+    values: [1.0]
+  ekd_weight:
+    values: [0.1]
+  student_clf:
+    values: ["relu"]
+  teacher_clf:
+    values: ["relu"]
+  student_lamb:
+    values: [1.0, 1.5, 2.1, 2.4, 2.8, 3.5]
+  teacher_lamb:
+    values: [0.1]
+    
