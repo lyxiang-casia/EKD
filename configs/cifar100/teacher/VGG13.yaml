@@ -1,0 +1,18 @@
+EXPERIMENT:
+  NAME: "vgg13"
+  TAG: "vgg13"
+  PROJECT: "Evidential_Teacher"
+DATASET:
+  TYPE: 'cifar100'
+DISTILLER:
+  TYPE: "Evidential_Teacher"
+  STUDENT: "vgg13"
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

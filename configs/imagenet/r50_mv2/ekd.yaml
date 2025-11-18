@@ -1,5 +1,5 @@
 EXPERIMENT:
-  NAME: "KD:EKD:CE=2:0.1:1,warmup=1"
+  NAME: ""
   TAG: "ekd,res50,mobilenetv1"
   PROJECT: "ImageNet_R34_MV2"
 DATASET:
@@ -8,24 +8,20 @@ DATASET:
   TEST:
     BATCH_SIZE: 128
 DISTILLER:
-  TYPE: "KD4eModel"
+  TYPE: "EKD"
   TEACHER: "ResNet50"
   STUDENT: "MobileNetV2"
 EKD:
   WARMUP: 1
   STUDENT: 
-    CLF_TYPE: "softplus"
     LAMB: -1.73
   TEACHER: 
-    CLF_TYPE: "softplus"
     LAMB: -1.73
   LOSS:
     KL: False
     CE_WEIGHT: 1.0
-    EKD_WEIGHT: 0.1
-    KD_WEIGHT: 2.0
-    EXPECTATION: False
-    TEMPERATURE: 1
+    SECOND_WEIGHT: 0.1
+    FIRST_WEIGHT: 2.0
 SOLVER:
   BATCH_SIZE: 512
   EPOCHS: 100

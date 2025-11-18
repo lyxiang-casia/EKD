@@ -3,7 +3,7 @@ from .imagenet import get_imagenet_dataloaders, get_imagenet_dataloaders_sample,
 from .cifar10 import get_cifar10_dataloaders
 
 
-def get_dataset(cfg):
+def get_dataset(cfg, g, seed_worker):
     if cfg.DATASET.TYPE == "cifar100":
         if cfg.DISTILLER.TYPE == "CRD":
             train_loader, val_loader, num_data = get_cifar100_dataloaders_sample(
@@ -18,6 +18,8 @@ def get_dataset(cfg):
                 batch_size=cfg.SOLVER.BATCH_SIZE,
                 val_batch_size=cfg.DATASET.TEST.BATCH_SIZE,
                 num_workers=cfg.DATASET.NUM_WORKERS,
+                worker_init_fn=seed_worker,
+                generator=g,
             )
         num_classes = 100
     elif cfg.DATASET.TYPE == "cifar10":

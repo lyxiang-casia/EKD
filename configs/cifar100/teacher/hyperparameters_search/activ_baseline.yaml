@@ -1,7 +1,0 @@
-method: grid
-metric:
-  name: best_acc 
-  goal: maximize  
-parameters:
-  ACTIVATION:
-    values: ["relu", "sigmoid", "tanh", "leakyrelu", "prelu", "elu"]

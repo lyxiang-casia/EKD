@@ -24,20 +24,18 @@
             }
         },
         {
-            "name": "Logit-standardization",
+            "name": "Teacher",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/tools/random_train.py",
+            "program": "${workspaceFolder}/tools/train.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": [
-                "--cfg", "configs/cifar100/ekd/model/resnet32x4_shn_v2.yaml",
+                "--cfg", "configs/imagenet/teacher/ImageNet.yaml",
                 "LOG.WANDB", "False",
-
             ],
             "env": {
-                "CUDA_VISIBLE_DEVICES": "0",
-                "PYTHONPATH": "${workspaceFolder}"
+                "CUDA_VISIBLE_DEVICES": "5",
             }
         },
         {
@@ -88,16 +86,23 @@
             }
         },
         {
-            "name": "Python 调试程序: 当前文件",
+            "name": "EKD+Feature",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/courses/deep_learning/hw-3/model.py",
+            "program": "${workspaceFolder}/tools/train.py",
             "console": "integratedTerminal",
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--cfg", "configs/cifar100/ekd/feat_logit/resnet32x4_resnet8x4.yaml",
+                "LOG.WANDB", "False",
+                "EXPERIMENT.PROJECT", "TEST",
+                // "DISTILLER.TYPE", "NONE",
+                // "DISTILLER.STUDENT", "wrn_40_2",
+            ],
             "env": {
-                "CUDA_VISIBLE_DEVICES": "1"
+                "CUDA_VISIBLE_DEVICES": "2",
             }
-        }
+        },
     ]
 }
 

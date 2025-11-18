@@ -1,0 +1,30 @@
+EXPERIMENT:
+  NAME: ""
+  TAG: "ekd,resnet110,resnet32"
+  PROJECT: "cifar100_baselines"
+DISTILLER:
+  TYPE: "EKD"
+  STUDENT: "resnet32"
+  TEACHER: "resnet110"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    LAMB: -0.86
+  TEACHER: 
+    LAMB: -0.86
+  LOSS:
+    KL: False
+    CE_WEIGHT: 5.0
+    SECOND_WEIGHT: 2.5
+    FIRST_WEIGHT: 2.5
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

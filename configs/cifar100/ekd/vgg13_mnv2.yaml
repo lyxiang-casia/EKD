@@ -1,0 +1,30 @@
+EXPERIMENT:
+  NAME: ""
+  TAG: "ekd,vgg13,mnv2"
+  PROJECT: "cifar100_baselines"
+DISTILLER:
+  TYPE: "EKD"
+  STUDENT: "MobileNetV2"
+  TEACHER: "vgg13"
+EKD:
+  WARMUP: 150
+  STUDENT: 
+    LAMB: -1.23
+  TEACHER: 
+    LAMB: -1.23
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    SECOND_WEIGHT: 3.0
+    FIRST_WEIGHT: 4.5
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.01
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

@@ -1,4 +1,4 @@
-from ._base import Vanilla
+from ._base import Vanilla, Vanilla_feat2logit
 from .KD import KD
 from .MLKD import MLKD
 from .AT import AT
@@ -14,7 +14,7 @@ from .Sonly import Sonly
 from .VID import VID
 from .ReviewKD import ReviewKD
 from .DKD import DKD
-from .Teacher import Teacher
+from .Evidential_Teacher import Teacher
 from .Teacher_lamb import Teacher_lamb
 from .EKD import EKD
 from .KD4eModel import KD4eModel
@@ -25,6 +25,7 @@ from .EKDIN import EKDIN
 from .CAT_KD import CAT_KD
 from .EKD_WKD_F import EKDWKD
 from .EKD_SimKD import EKDSimKD
+from .EKD_feat_logit import EKD_feat_logit
 
 distiller_dict = {
     "NONE": Vanilla,
@@ -43,15 +44,8 @@ distiller_dict = {
     "VID": VID,
     "REVIEWKD": ReviewKD,
     "DKD": DKD,
-    "Teacher": Teacher,
-    "Teacher_lamb": Teacher_lamb,
+    "Evidential_Teacher": Evidential_Teacher,
     "EKD": EKD,
-    "KD4eModel": KD4eModel,
-    "DKD4eModel": DKD4eModel,
-    "MLKD4eModel": MLKD4eModel,
     "Monitor": Monitor,
-    "EKDIN": EKDIN,
     "CAT_KD": CAT_KD,
-    "EKDWKD": EKDWKD,
-    "EKDSimKD": EKDSimKD,
 }

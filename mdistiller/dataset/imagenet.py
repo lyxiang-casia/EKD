@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from PIL import ImageOps, ImageEnhance, ImageDraw, Image
 import random
 
-data_folder = '/data_SSD2/mmc_lyxiang/KD/data/imagenet'
+data_folder = '/data/mmc_lyxiang/dataset/ImageNet/'
 # os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data/imagenet')
 
 

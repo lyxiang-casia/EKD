@@ -60,3 +60,41 @@ class Vanilla(nn.Module):
 
     def forward_test(self, image):
         return self.student(image)[0]
+
+class Vanilla_feat2logit(nn.Module):
+    def __init__(self, student):
+        super(Vanilla_feat2logit, self).__init__()
+        self.student = student
+        self.avgpool = nn.AvgPool2d(16)
+        self.filter2_fc = nn.Linear(128, 100)
+
+    def get_learnable_parameters(self):
+        params_to_update = []
+        params_to_update.extend(self.avgpool.parameters())
+        params_to_update.extend(self.filter2_fc.parameters())
+        return params_to_update
+
+    def forward_train(self, image, target, **kwargs):
+        with torch.no_grad():
+            _, feats_student = self.student(image)
+
+        f2 = feats_student["feats"][2]
+
+        out = self.avgpool(f2)
+        avg = out.reshape(out.size(0), -1)
+        logits_student = self.filter2_fc(avg)
+
+        loss = F.cross_entropy(logits_student, target)
+        return logits_student, {"ce": loss}
+
+    def forward(self, **kwargs):
+        if self.training:
+            return self.forward_train(**kwargs)
+        return self.forward_test(kwargs["image"])
+
+    def forward_test(self, image):
+        return self.student(image)[0]
+    
+    def get_extra_parameters(self):
+        total_params = sum(p.numel() for p in self.avgpool.parameters()) + sum(p.numel() for p in self.filter2_fc.parameters())
+        return total_params

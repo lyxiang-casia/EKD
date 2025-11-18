@@ -17,7 +17,7 @@ from .utils import (
     load_checkpoint,
     log_msg,
 )
-import wandb
+import swanlab
 
 class BaseTrainer(object):
     def __init__(self, project, experiment_name, distiller, train_loader, val_loader, cfg):
@@ -55,14 +55,16 @@ class BaseTrainer(object):
         self.tf_writer.flush()
         # wandb log
         if self.cfg.LOG.WANDB:
-            import wandb
+            # import wandb
+            import swanlab
 
-            wandb.log({"current lr": lr})
-            wandb.log(log_dict)
+            swanlab.log({"current lr": lr})
+            swanlab.log(log_dict)
         if log_dict["test_acc"] > self.best_acc:
             self.best_acc = log_dict["test_acc"]
             if self.cfg.LOG.WANDB:
-                wandb.run.summary["best_acc"] = self.best_acc
+                # wandb.run.summary["best_acc"] = self.best_acc
+                swanlab.log({"best_accuracy": self.best_acc})
         # worklog.txt
         with open(os.path.join(self.log_path, "worklog.txt"), "a") as writer:
             lines = [
@@ -131,10 +133,6 @@ class BaseTrainer(object):
                 "test_acc": test_acc,
                 "test_acc_top5": test_acc_top5,
                 "test_loss": test_loss,
-                # "ekd_lamb_teacher": self.distiller.module.lamb_teacher_ekd.item(),
-                # "ekd_lamb_student": self.distiller.module.lamb_student_ekd.item(),
-                # "lamb": self.distiller.module.lamb2.item(),
-                # "test_loss_kd": test_loss_kd,
             }
         )
         if hasattr(self.distiller.module, 'lamb'):
@@ -143,14 +141,6 @@ class BaseTrainer(object):
             log_dict["ce_lamb_S"] = self.distiller.module.ce_lamb_S.item()
         if hasattr(self.distiller.module, 'ce_lamb_T'):
             log_dict["ce_lamb_T"] = self.distiller.module.ce_lamb_T.item()
-        # if hasattr(self.distiller.module, 'lamb_2nd_order_S'):
-        #     log_dict["lamb_2nd_order_S"] = self.distiller.module.lamb_2nd_order_S.item()
-        # if hasattr(self.distiller.module, 'lamb_2nd_order_T'):
-        #     log_dict["lamb_2nd_order_T"] = self.distiller.module.lamb_2nd_order_T.item()
-        if hasattr(self.distiller.module, 'temp_S'):
-            log_dict["temp_S"] = self.distiller.module.temp_S[0].item()
-        if hasattr(self.distiller.module, 'temp_T'):
-            log_dict["temp_T"] = self.distiller.module.temp_T[0].item()
 
 
         for key in train_meters.keys():
@@ -201,17 +191,6 @@ class BaseTrainer(object):
         # backward
         loss = sum([l.mean() for l in losses_dict.values()])
         loss.backward()
-        lr = self.optimizer.param_groups[0]['lr']
-        fc_grad = self.distiller.module.student.fc.weight.grad
-        if fc_grad is not None:
-            noise = torch.randn_like(fc_grad) * (0.1 * lr) ** 0.5
-            self.distiller.module.student.fc.weight.grad = fc_grad + noise
-        # for param in self.optimizer.param_groups[0]['params']:
-        #     if param.grad is not None:
-        #         # 生成标准正态分布的随机噪声，乘以 sqrt(2 * lr)
-        #         noise = torch.randn_like(param.grad) * (0.005 * lr) ** 0.5
-        #         # 将噪声加到梯度上
-        #         param.grad.data.add_(noise)
         self.optimizer.step()
         train_meters["training_time"].update(time.time() - train_start_time)
         # collect info

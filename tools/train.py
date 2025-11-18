@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 import yaml
-import wandb
+import swanlab
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
@@ -13,14 +13,14 @@ from multiprocessing import Process
 
 cudnn.benchmark = True
 
-from mdistiller.models import cifar_model_dict, imagenet_model_dict
+from mdistiller.models import cifar_model_dict, imagenet_model_dict, cifar_emodel_dict
 from mdistiller.distillers import distiller_dict
 from mdistiller.dataset import get_dataset, get_dataset_strong
 from mdistiller.engine.utils import load_checkpoint, log_msg
 from mdistiller.engine.cfg import CFG as cfg
 from mdistiller.engine.cfg import show_cfg
 from mdistiller.engine import trainer_dict
-from mdistiller.models.cifar.resnet_activ import SwiGLU, GEGLU
+
 
 def set_seed(seed):
     random.seed(seed)
@@ -31,15 +31,10 @@ def set_seed(seed):
     cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-activation_mapping = {
-    "relu": nn.ReLU,
-    "gelu": nn.GELU,
-    "swish": nn.SiLU,
-    "geglu": GEGLU,
-    "leakyrelu": nn.LeakyReLU,
-    "prelu": nn.PReLU,
-    "elu": nn.ELU,
-}
+def seed_worker(worker_id):
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
 
 
 def count_parameter(m):
@@ -47,26 +42,21 @@ def count_parameter(m):
 
 def main(cfg, resume, opts, seed):
     set_seed(seed)
+    g = torch.Generator()
+    g.manual_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     
     ####### Experiment Setting #######
-    # experiment_name = cfg.EXPERIMENT.NAME
-    # experiment_name += f'seed{seed},T={cfg.EKD.LOSS.TEMPERATURE}'
-    experiment_name = cfg.DISTILLER.TEACHER + cfg.DISTILLER.STUDENT + f'seed{seed}'
+    experiment_name = cfg.EXPERIMENT.NAME
     if experiment_name == "":
         experiment_name = cfg.EXPERIMENT.TAG
     tags = cfg.EXPERIMENT.TAG.split(",")
-    tags += [cfg.DISTILLER.STUDENT, cfg.DISTILLER.TEACHER]
-    if opts:
-        addtional_tags = ["{}:{}".format(k, v) for k, v in zip(opts[::2], opts[1::2])]
-        tags += addtional_tags
-        experiment_name += ",".join(addtional_tags)
     if cfg.LOG.WANDB:
         try:
-            run = wandb.init(project=cfg.EXPERIMENT.PROJECT, name=experiment_name, tags=tags)
+            run = swanlab.init(project=cfg.EXPERIMENT.PROJECT, name=experiment_name, tags=tags)
 
         except:
-            print(log_msg("Failed to use WANDB", "INFO"))
+            print(log_msg("Failed to use SWANLAB", "INFO"))
             cfg.LOG.WANDB = False
     
     # cfg & loggers
@@ -75,7 +65,7 @@ def main(cfg, resume, opts, seed):
     if 'MLKD' in cfg.DISTILLER.TYPE:
         train_loader, val_loader, num_data, num_classes = get_dataset_strong(cfg)
     else:
-        train_loader, val_loader, num_data, num_classes = get_dataset(cfg)
+        train_loader, val_loader, num_data, num_classes = get_dataset(cfg, g, seed_worker)
 
 
     ###### Distiller Setting #########
@@ -89,7 +79,7 @@ def main(cfg, resume, opts, seed):
             )
         distiller = distiller_dict[cfg.DISTILLER.TYPE](model_student)
     # Teacher("vanilla" for single evidential model)
-    elif "Teacher" in cfg.DISTILLER.TYPE:
+    elif cfg.DISTILLER.TYPE == "Evidential_Teacher":
         if cfg.DATASET.TYPE == "imagenet":
             model_student = imagenet_model_dict[cfg.DISTILLER.STUDENT](pretrained=False)
         else:
@@ -97,7 +87,22 @@ def main(cfg, resume, opts, seed):
                 num_classes=num_classes
             )
         distiller = distiller_dict[cfg.DISTILLER.TYPE](model_student, cfg)
-
+    elif cfg.DISTILLER.TYPE == "EKD":
+        if cfg.DATASET.TYPE == "imagenet":
+            model_teacher = imagenet_model_dict[cfg.DISTILLER.TEACHER](pretrained=True)
+            model_student = imagenet_model_dict[cfg.DISTILLER.STUDENT](pretrained=False)
+        else:
+            print("Using Evdential Teacher")
+            net, pretrain_model_path = cifar_model_dict[cfg.DISTILLER.TEACHER]
+            assert (
+                pretrain_model_path is not None
+            ), "no pretrain model for teacher {}".format(cfg.DISTILLER.TEACHER)
+            model_teacher = net(num_classes=num_classes)
+            model_teacher.load_state_dict(load_checkpoint(pretrain_model_path)["model"])
+            model_student = cifar_emodel_dict[cfg.DISTILLER.STUDENT][0](
+                num_classes=num_classes
+            )
+        distiller = distiller_dict[cfg.DISTILLER.TYPE](model_student, model_teacher, cfg)
     # Distillation with both student and teacher models
     else:
         print(log_msg("Loading teacher model", "INFO"))
@@ -105,20 +110,16 @@ def main(cfg, resume, opts, seed):
             model_teacher = imagenet_model_dict[cfg.DISTILLER.TEACHER](pretrained=True)
             model_student = imagenet_model_dict[cfg.DISTILLER.STUDENT](pretrained=False)
         else:
-            net, pretrain_model_path = cifar_model_dict[cfg.DISTILLER.TEACHER]
+            model_dict = tiny_imagenet_model_dict if cfg.DATASET.TYPE == "tiny_imagenet" else cifar_model_dict
+            net, pretrain_model_path = model_dict[cfg.DISTILLER.TEACHER]
             assert (
                 pretrain_model_path is not None
             ), "no pretrain model for teacher {}".format(cfg.DISTILLER.TEACHER)
-            if 'activ' in cfg.DISTILLER.TEACHER:
-                model_teacher = net(num_classes=num_classes, activation=activation_mapping.get(cfg.EKD.TEACHER.ACTIVATION, nn.ReLU))
-            else:
-                model_teacher = net(num_classes=num_classes)
+            model_teacher = net(num_classes=num_classes)
             model_teacher.load_state_dict(load_checkpoint(pretrain_model_path)["model"])
-            # student model
-            model_student = cifar_model_dict[cfg.DISTILLER.STUDENT][0](
+            model_student = model_dict[cfg.DISTILLER.STUDENT][0](
                 num_classes=num_classes
             )
-        # Loading Distiller
         if cfg.DISTILLER.TYPE == "CRD":
             distiller = distiller_dict[cfg.DISTILLER.TYPE](
                 model_student, model_teacher, cfg, num_data
@@ -127,10 +128,9 @@ def main(cfg, resume, opts, seed):
             distiller = distiller_dict[cfg.DISTILLER.TYPE](
                 model_student, model_teacher, cfg
             )
-
     distiller = torch.nn.DataParallel(distiller.cuda())
 
-    if cfg.DISTILLER.TYPE not in ["NONE", "Teacher", "Teacher_lamb"]:
+    if cfg.DISTILLER.TYPE not in ["NONE", "Evidential_Teacher"]:
         print(
             log_msg(
                 "Extra parameters of {}: {}\033[0m".format(
@@ -164,19 +164,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # config_folder = "configs/cifar100/kd/"
-    # config_files = sorted([f for f in os.listdir(config_folder) if f.endswith('.yaml')])
-    # config_path = 'configs/cifar100/kd/vgg13_vgg8.yaml'
-    # for i, config_file in enumerate(config_files[12:]):
-    #     config_path = os.path.join(config_folder, config_file)
-
-    # cfg.merge_from_file(args.cfg)
     cfg.defrost()
     cfg.merge_from_file(args.cfg)
     cfg.merge_from_list(args.opts)
-    # cfg.EXPERIMENT.PROJECT = "MSE_CIFAR100"
-    cfg.DATASET.TYPE = "cifar100"
-    # cfg.DISTILLER.TYPE = "EKD"
     if args.logit_stand and cfg.DISTILLER.TYPE in ['KD','DKD','MLKD']:
         cfg.EXPERIMENT.LOGIT_STAND = True
         if cfg.DISTILLER.TYPE == 'KD':

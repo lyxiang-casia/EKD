@@ -113,7 +113,7 @@ def ece_loss(probabilities, labels, n_bins=10):
 
 
 def validate(val_loader, distiller):
-    batch_time, losses, top1, top5, ece_meter = [AverageMeter() for _ in range(5)]
+    batch_time, losses, top1, top5 = [AverageMeter() for _ in range(4)]
     criterion = nn.CrossEntropyLoss()
     num_iter = len(val_loader)
     pbar = tqdm(range(num_iter))
@@ -135,11 +135,11 @@ def validate(val_loader, distiller):
             top5.update(acc5[0], batch_size)
 
             ######ECE########
-            probabilities = torch.exp(output) + torch.exp(torch.tensor(-1.22))
-            probabilities = probabilities / probabilities.sum(dim=1, keepdim=True)
-            # probabilities = F.softmax(output, dim=1)
-            ece = ece_loss(probabilities, target, n_bins=10)
-            ece_meter.update(ece.item(), batch_size)
+            # probabilities = torch.exp(output) + torch.exp(torch.tensor(-1.22))
+            # probabilities = probabilities / probabilities.sum(dim=1, keepdim=True)
+            # # probabilities = F.softmax(output, dim=1)
+            # ece = ece_loss(probabilities, target, n_bins=10)
+            # ece_meter.update(ece.item(), batch_size)
 
             ######Theorical Analysis########
             # logits_student, logits_teacher = distiller(image=image)
@@ -153,13 +153,13 @@ def validate(val_loader, distiller):
             # measure elapsed time
             batch_time.update(time.time() - start_time)
             start_time = time.time()
-            msg = "Top-1:{top1.avg:.3f}| Top-5:{top5.avg:.3f}| ECE:{ece.avg:.3f}".format(
-                top1=top1, top5=top5, ece=ece_meter
+            msg = "Top-1:{top1.avg:.3f}| Top-5:{top5.avg:.3f}".format(
+                top1=top1, top5=top5
             )
             pbar.set_description(log_msg(msg, "EVAL"))
             pbar.update()
     pbar.close()
-    return top1.avg, top5.avg, losses.avg, ece_meter.avg
+    return top1.avg, top5.avg, losses.avg
 
 
 def validate_npy(val_loader, distiller):

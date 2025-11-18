@@ -1,0 +1,30 @@
+EXPERIMENT:
+  NAME: ""
+  TAG: "ekd,wrn_40_2,wrn_40_1"
+  PROJECT: "cifar100_baselines"
+DISTILLER:
+  TYPE: "EKD"
+  STUDENT: "wrn_40_1"
+  TEACHER: "wrn_40_2"
+EKD:
+  WARMUP: 30
+  STUDENT: 
+    LAMB: -1.21
+  TEACHER: 
+    LAMB: -1.21
+  LOSS:
+    KL: False
+    CE_WEIGHT: 1.0
+    SECOND_WEIGHT: 2.0
+    FIRST_WEIGHT: 4.5
+LOG:
+  WANDB: True
+SOLVER:
+  BATCH_SIZE: 64
+  EPOCHS: 240
+  LR: 0.05
+  LR_DECAY_STAGES: [150, 180, 210]
+  LR_DECAY_RATE: 0.1
+  WEIGHT_DECAY: 0.0005
+  MOMENTUM: 0.9
+  TYPE: "SGD"

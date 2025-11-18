@@ -357,16 +357,7 @@ def worker_init_fn(worker_id):
     np.random.seed(int(seed) + worker_id)  
     random.seed(int(seed) + worker_id)
 
-def get_cifar100_dataloaders(batch_size, val_batch_size, num_workers):
-    # seed = int(os.getenv('PYTHONHASHSEED'))
-    # random.seed(seed)
-    # np.random.seed(seed)
-    # torch.manual_seed(seed)
-    # torch.cuda.manual_seed(seed)
-    # torch.cuda.manual_seed_all(seed)
-    # torch.backends.cudnn.deterministic = True
-    # torch.backends.cudnn.benchmark = False
-
+def get_cifar100_dataloaders(batch_size, val_batch_size, num_workers, worker_init_fn, generator):
     data_folder = get_data_folder()
     train_transform = get_cifar100_train_transform()
     test_transform = get_cifar100_test_transform()
@@ -381,7 +372,7 @@ def get_cifar100_dataloaders(batch_size, val_batch_size, num_workers):
     seed = os.environ.get('PYTHONHASHSEED')
     if seed:
         train_loader = DataLoader(
-            train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers, worker_init_fn=worker_init_fn
+            train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers, worker_init_fn=worker_init_fn, generator=generator
         )
     else:
         train_loader = DataLoader(
@@ -397,13 +388,6 @@ def get_cifar100_dataloaders(batch_size, val_batch_size, num_workers):
 
 
 def get_cifar100_dataloaders_strong(batch_size, val_batch_size, num_workers):
-    # seed = int(os.getenv('PYTHONHASHSEED', '42'))
-    # random.seed(seed)
-    # np.random.seed(seed)
-    # torch.manual_seed(seed)
-    # torch.cuda.manual_seed(seed)
-    # torch.cuda.manual_seed_all(seed)
-
     data_folder = get_data_folder()
     train_transform = get_cifar100_train_transform_strong()
     test_transform = get_cifar100_test_transform()

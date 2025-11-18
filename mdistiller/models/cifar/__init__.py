@@ -79,27 +79,32 @@ cifar_model_dict = {
     "ShuffleV2": (ShuffleV2, None),
 }
 
+cifar100_emodel_prefix = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), 
+    "../../../evidential_teacher/"
+)
+
 cifar_emodel_dict = {
     # teachers
     "resnet56": (
         resnet56,
-        "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_ResNet56(226)/trained_lamb(seed1)/student_240",
+        cifar100_emodel_prefix + "ResNet56/student_200",
     ),
     "resnet110": (
         resnet110,
-        "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_ResNet110(226)/trained_lamb(exp)seed10/student_best",
+        cifar100_emodel_prefix + "ResNet110/student_best",
     ),
     "resnet32x4": (
         resnet32x4,
-        "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_resnet32x4(226)/trained_lamb(exp)(seed5)/student_best",
+        cifar100_emodel_prefix + "ResNet32x4/student_best",
     ),
     "ResNet50": (
         ResNet50,
-        "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_ResNet50/trained_lamb(exp)/student_best",
+        cifar100_emodel_prefix + "ResNet50/student_best",
     ),
     "wrn_40_2": (
         wrn_40_2,
-        "/data/mmc_lyxiang/KD/logit-standardization-KD-master/teacher/WRN_40_2/student_best",
+        cifar100_emodel_prefix + "WRN_40_2/student_best",
     ),
     "wrn_28_2": (
         wrn_28_2,
@@ -114,7 +119,7 @@ cifar_emodel_dict = {
         None,
     ),
     "vgg13": (vgg13_bn, 
-    "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_VGG13(226)/trained_lamb/student_240",
+    cifar100_emodel_prefix + "VGG13/student_240",
     # "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_VGG13/EDL_VGG13,without priorseed1/student_240",
     ),
     # students
@@ -137,20 +142,3 @@ cifar_emodel_dict = {
     "ShuffleV2": (ShuffleV2, None),
 }
 
-cifar10_model_dict = {
-        # teachers
-    "vgg13": (vgg13_bn, 
-    "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/CIFAR10/softmax_Teacher_VGG13seed1/student_240"
-    ),
-    # students
-    "vgg8": (vgg8_bn, None),
-}
-
-cifar10_emodel_dict = {
-        # teachers
-    "vgg13": (vgg13_bn, 
-    "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/CIFAR10/evidential_Teacher_VGG13seed1/student_240"
-    ),
-    # students
-    "vgg8": (vgg8_bn, None),
-}

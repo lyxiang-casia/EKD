@@ -20,6 +20,7 @@ mdistiller/distillers/EKDIN.py
 mdistiller/distillers/EKD_MLKD.py
 mdistiller/distillers/EKD_SimKD.py
 mdistiller/distillers/EKD_WKD_F.py
+mdistiller/distillers/EKD_feat_logit.py
 mdistiller/distillers/FLOPS.py
 mdistiller/distillers/FitNet.py
 mdistiller/distillers/KD copy.py
@@ -56,10 +57,6 @@ mdistiller/models/cifar/ShuffleNetv2.py
 mdistiller/models/cifar/__init__.py
 mdistiller/models/cifar/mobilenetv2.py
 mdistiller/models/cifar/resnet.py
-mdistiller/models/cifar/resnet_activ.py
-mdistiller/models/cifar/resnet_activ_lamb.py
-mdistiller/models/cifar/resnet_for_geglu.py
-mdistiller/models/cifar/resnet_lamb.py
 mdistiller/models/cifar/resnetv2.py
 mdistiller/models/cifar/test.py
 mdistiller/models/cifar/vgg.py
