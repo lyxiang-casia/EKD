@@ -88,23 +88,23 @@ cifar_emodel_dict = {
     # teachers
     "resnet56": (
         resnet56,
-        cifar100_emodel_prefix + "ResNet56/student_200",
+        cifar100_emodel_prefix + "resnet56",
     ),
     "resnet110": (
         resnet110,
-        cifar100_emodel_prefix + "ResNet110/student_best",
+        cifar100_emodel_prefix + "resnet110",
     ),
     "resnet32x4": (
         resnet32x4,
-        cifar100_emodel_prefix + "ResNet32x4/student_best",
+        cifar100_emodel_prefix + "resnet32x4",
     ),
     "ResNet50": (
         ResNet50,
-        cifar100_emodel_prefix + "ResNet50/student_best",
+        cifar100_emodel_prefix + "resnet50",
     ),
     "wrn_40_2": (
         wrn_40_2,
-        cifar100_emodel_prefix + "WRN_40_2/student_best",
+        cifar100_emodel_prefix + "wrn_40_2",
     ),
     "wrn_28_2": (
         wrn_28_2,
@@ -119,8 +119,7 @@ cifar_emodel_dict = {
         None,
     ),
     "vgg13": (vgg13_bn, 
-    cifar100_emodel_prefix + "VGG13/student_240",
-    # "/data/mmc_lyxiang/KD/logit-standardization-KD-master/output/Teacher_VGG13/EDL_VGG13,without priorseed1/student_240",
+    cifar100_emodel_prefix + "vgg13",
     ),
     # students
     "resnet8": (resnet8, None),

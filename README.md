@@ -33,15 +33,13 @@ python setup.py develop
   python tools/train.py --cfg configs/cifar100/teacher/resnet32x4.yaml
   ```
 
-**Note**: A single training run does not guarantee that you will obtain an ideal pretrained teacher, as its performance may differ from that of a Softmax-based teacher. You may need to train multiple times or directly use the pretrained teacher we provide：[Evidential Teachers]()
+**Note**: A single training run does not guarantee that you will obtain an ideal pretrained teacher, as its performance may differ from that of a Softmax-based teacher. You may need to train multiple times or directly use the pretrained teacher we provide：
+
+- Download the [`evidential_teachers.tar`](<https://drive.google.com/file/d/19fXKTl_2DsZpiR4SuzXOePG_slyLTMks/view?usp=sharing>) and untar it to `./evidential_teachers` via `tar xvf evidential_teachers.tar`.
 
 ## Distilling CNNs
 
 ### CIFAR-100 Dataset
-
-#### Download pretrained teachers
-- Download the [`evidential_teachers.tar`](<https://github.com/megvii-research/mdistiller/releases/tag/checkpoints>) and untar it to `./evidential_teachers` via `tar xvf evidential_teachers.tar`.
-
 
 #### Distillation
 - Different teacher–student distillation settings can be achieved by modifying the configuration file `*.yaml` in the following command:
@@ -51,10 +49,6 @@ python setup.py develop
   ```
   If the dataset does not exist locally, it will be fetched during the first run.
 
-
-2. For CTKD
-
-Please refer to [CTKD](./CTKD).
 
 
 ### ImageNet Dataset
@@ -71,19 +65,22 @@ Use the following command to train on the **ImageNet** dataset:
   python tools/train.py --cfg configs/imagenet/r50_mv2/ekd.yaml
   ```
 
-## Distilling ViTs
-
-Please refer to [tiny-transformers](./tiny-transformers).
-
-## Visualizations
-Please refer to [visualizations](./tools/visualizations).
 
 # Acknowledgement
-Sincere gratitude to the contributors of mdistiller, logit-standardization-KD for their distinguished efforts.
+Sincere gratitude to the contributors of [mdistiller](https://github.com/megvii-research/mdistiller) and [logit-standardization-KD](https://github.com/megvii-research/mdistiller) for their distinguished efforts.
 
 
 # Citation
 
 If you find that this project helps your research, please consider citing some of the following paper:
+
+```bibtex
+@inproceedings{xiang2025evidential,
+  title={Evidential Knowledge Distillation},
+  author={Xiang, Liangyu and Gao, Junyu and Xu, Changsheng},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={2814--2824},
+  year={2025}
+}
 
 
