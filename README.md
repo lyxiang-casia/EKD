@@ -16,8 +16,8 @@ The code is built on [mdistiller](<https://github.com/megvii-research/mdistiller
 
 Environments:
 
-- Python 3.8
-- PyTorch 1.7.0
+- Python 3.10
+- PyTorch 2.8.0
 
 Install the package:
 
@@ -25,6 +25,8 @@ Install the package:
 pip install -r requirements.txt
 python setup.py develop
 ```
+Although we use a relatively recent version of PyTorch and related dependencies, you only need to install the PyTorch version that matches your system configuration, along with the compatible dependencies listed in requirements.txt.
+
 
 ## Training Evidential Teachers
 - To use EKD, you should first train an evidential teacher to provide guidance. Use the following command to train an evidential teacher.: 
